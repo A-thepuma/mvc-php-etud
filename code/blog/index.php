@@ -31,5 +31,18 @@ while ($row = $statement->fetch()) {
 }
 $statement->closeCursor();
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Charger le modèle (chemin ABSOLU pour être sûr)
+$MODEL_PATH = __DIR__ . '/src/model.php';
+if (!file_exists($MODEL_PATH)) {
+    die('Model introuvable : ' . $MODEL_PATH);
+}
+require_once $MODEL_PATH;
+
+$posts = getPosts();
+
 // Appel du template 
 require_once __DIR__ . '/templates/homepage.php';
+
