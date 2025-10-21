@@ -5,26 +5,35 @@ require_once('src/controllers/homepage.php');
 require_once('src/controllers/post.php');
 require_once __DIR__ . '/src/model/comment.php';
 
-if (isset($_GET['action']) && $_GET['action'] !== '') {
-    if ($_GET['action'] === 'post') {
-        if (isset($_GET['id']) && $_GET['id'] > 0) {
-            $identifier = $_GET['id'];
-            post($identifier);
-        } else {
-            echo 'Erreur : aucun identifiant de billet envoyé';
-            die;
+$action = isset($_GET['action']) ? $_GET['action'] : 'listPosts';
+
+try {
+    if ($action === 'listPosts') {
+        homepage();
+
+    } elseif ($action === 'post') {
+        if (!isset($_GET['id']) || !ctype_digit($_GET['id'])) {
+            throw new Exception('Identifiant de billet manquant');
         }
-    } elseif ($_GET['action'] === 'addComment') {
-        if (isset($_GET['id']) && $_GET['id'] > 0) {
-            $identifier = $_GET['id'];
-            addComment($identifier, $_POST);
-        } else {
-            echo 'Erreur : aucun identifiant de billet envoyé';
-            die;
+        post($_GET['id']);
+
+    } elseif ($action === 'addComment') {
+        if (!isset($_GET['id']) || !ctype_digit($_GET['id'])) {
+            throw new Exception('Identifiant de billet manquant');
         }
+        if (empty($_POST['author']) || empty($_POST['comment'])) {
+            throw new Exception('Tous les champs sont obligatoires');
+        }
+        addComment($_GET['id'], $_POST['author'], $_POST['comment']); // contrôleur
+
     } else {
-        echo "Erreur 404 : la page que vous recherchez n'existe pas.";
+        throw new Exception("Erreur 404 : la page que vous recherchez n'existe pas.");
     }
-} else {
-    homepage();
+
+} catch (Exception $e) {
+    if (!headers_sent()) {
+        header('HTTP/1.1 500 Internal Server Error');
+    }
+    $errorMessage = $e->getMessage();
+    require __DIR__ . '/templates/error.php';
 }
