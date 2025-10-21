@@ -1,7 +1,8 @@
 <?php
 
 
-function db() {
+function db()
+{
     static $pdo = null;
     if ($pdo === null) {
         try {
@@ -14,14 +15,15 @@ function db() {
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                 )
             );
-            
+
         } catch (Exception $e) {
             die('Erreur : ' . $e->getMessage());
         }
     }
     return $pdo;
 }
-function getPosts() {
+function getPosts()
+{
     $bdd = db();
     $sql = "SELECT id, title, content,
                    DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin%ss') AS french_creation_date
@@ -33,10 +35,10 @@ function getPosts() {
     $posts = array();
     while ($row = $statement->fetch()) {
         $posts[] = array(
-            'id'                   => (int)$row['id'],   // <- clé standardisée
-            'title'                => $row['title'],
+            'id' => (int) $row['id'],
+            'title' => $row['title'],
             'french_creation_date' => $row['french_creation_date'],
-            'content'              => $row['content'],
+            'content' => $row['content'],
         );
     }
     return $posts;
@@ -45,7 +47,7 @@ function getPosts() {
 
 function getPost($id)
 {
-    $id = (int)$id;
+    $id = (int) $id;
     $bdd = db();
     $sql = "SELECT id, title, content,
                    DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin%ss') AS french_creation_date
@@ -53,22 +55,20 @@ function getPost($id)
             WHERE id = ?";
     $st = $bdd->prepare($sql);
     $st->execute([$id]);
-    $post = $st->fetch();
-    if (!$post) {
+   
+
+    $row = $st->fetch();
+    if (!$row) {
         throw new Exception('Billet introuvable');
     }
+
+    $post = [
+        'identifier' => $row['id'],
+        'title' => $row['title'],
+        'french_creation_date' => $row['french_creation_date'],
+        'content' => $row['content'],
+    ];
     return $post;
 }
 
-function getComments($postId) {
-    $postId = (int)$postId;
-    $bdd = db();
-    $sql = "SELECT author, comment,
-                   DATE_FORMAT(comment_date, '%d/%m/%Y à %Hh%imin%ss') AS french_creation_date
-            FROM comments
-            WHERE post_id = ?
-            ORDER BY comment_date DESC";  
-    $st = $bdd->prepare($sql);
-    $st->execute(array($postId));
-    return $st->fetchAll();
-}
+
