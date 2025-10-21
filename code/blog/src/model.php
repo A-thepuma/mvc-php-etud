@@ -32,3 +32,4 @@ function getPosts()
 
     return $posts;
 }
+
