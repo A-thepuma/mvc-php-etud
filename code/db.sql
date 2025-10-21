@@ -40,4 +40,18 @@ ALTER TABLE `comments`
   ADD PRIMARY KEY (`id`);
 
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  
+CREATE TABLE `comments` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `post_id` INT(11) NOT NULL,
+  `author` VARCHAR(255) NOT NULL,
+  `comment` TEXT NOT NULL,
+  `comment_date` DATETIME NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_comments_post` (`post_id`),
+  CONSTRAINT `fk_comments_post`
+    FOREIGN KEY (`post_id`) REFERENCES `posts`(`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
