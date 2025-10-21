@@ -1,37 +1,34 @@
 <?php
-function getPosts() {
-    // Connexion BDD
+
+function getPosts()
+{
     try {
-        $dsn = 'mysql:host=127.0.0.1;port=3307;dbname=blog;charset=utf8';
-        $database = new PDO($dsn, 'root', 'root', array(
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-        ));
-    } catch (Exception $e) {
-        // En dev : on stoppe (tu peux logger à la place)
-        die('Erreur de connexion : ' . $e->getMessage());
-    }
-
-    // Requête
-    $sql = "
-      SELECT id, titre, contenu,
-             DATE_FORMAT(date_creation, '%d/%m/%Y à %Hh%imin%ss') AS date_creation_fr
-      FROM billets
-      ORDER BY date_creation DESC
-      LIMIT 0, 5
-    ";
-    $statement = $database->query($sql);
-
-    // Construire les données pour la vue
-    $posts = array();
-    while ($row = $statement->fetch()) {
-        $posts[] = array(
-            'title'              => $row['titre'],
-            'content'            => $row['contenu'],
-            'frenchCreationDate' => $row['date_creation_fr'],
+        $bdd = new PDO(
+            'mysql:host=127.0.0.1;port=3307;dbname=blog', 
+            'root',
+            'root',
+            [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            ]
         );
+    } catch (Exception $e) {
+        die('Erreur : ' . $e->getMessage());
     }
-    $statement->closeCursor();
+
+    $statement = $bdd->query(
+        "SELECT id, title, content, DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin%ss') AS french_creation_date FROM posts ORDER BY creation_date DESC LIMIT 0, 5"
+    );
+    $posts = [];
+    while (($row = $statement->fetch())) {
+        $post = [
+            'title' => $row['title'],
+            'french_creation_date' => $row['french_creation_date'],
+            'content' => $row['content'],
+        ];
+
+        $posts[] = $post;
+    }
 
     return $posts;
 }
