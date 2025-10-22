@@ -11,7 +11,9 @@ function post($identifier)
         throw new Exception('Identifiant invalide');
     }
 
-    $post     = getPost($id);
+    $repository = new PostRepository();
+    $repository->getPost($identifier);
+    $post = $repository->getPost($id);
     $comments = getComments($id);
 
     require __DIR__ . '/../../templates/post.php';
