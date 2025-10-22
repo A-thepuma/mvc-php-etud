@@ -1,40 +1,26 @@
-<!DOCTYPE html>
-<html>
+<?php
+$title = "Le blog de l'AVBN";
+ob_start();
+?>
+<h1>Le super blog de l'AVBN !</h1>
+<p>Derniers billets du blog :</p>
 
-<head>
-  <meta charset="utf-8" />
-  <title>Le blog de l'AVBN</title>
-  <link href="style.css" rel="stylesheet" />
-</head>
+<?php foreach ($posts as $post): ?>
+  <div class="news">
+    <h3>
+      <?= htmlspecialchars($post->title, ENT_QUOTES, 'UTF-8') ?>
+      <em>le <?= htmlspecialchars($post->frenchCreationDate, ENT_QUOTES, 'UTF-8') ?></em>
+    </h3>
+    <p>
+      <?= nl2br(htmlspecialchars($post->content, ENT_QUOTES, 'UTF-8')) ?>
+      <br />
+      <em>
+        <a href="index.php?action=post&id=<?= (int)$post->identifier ?>">Commentaires</a>
+      </em>
+    </p>
+  </div>
+<?php endforeach; ?>
 
-<body>
-
-  <?php $title = "Le blog de l'AVBN"; ?>
-  <?php ob_start(); ?>
-  <h1>Le super blog de l'AVBN !</h1>
-  <p>Derniers billets du blog :</p>
-
-  <?php
-  foreach ($posts as $post) {
-    ?>
-    <div class="news">
-      <h3>
-        <?= htmlspecialchars($post['title']); ?>
-        <em>le <?= $post['french_creation_date']; ?></em>
-      </h3>
-      <p>
-        <?= nl2br(htmlspecialchars($post['content'])); ?>
-        <br />
-        <em>
-          <a href="index.php?action=post&id=<?= urlencode($post['id']) ?> ">Commentaires</a>
-        </em>
-      </p>
-    </div>
-    <?php
-  }
-  ?>
-  <?php $content = ob_get_clean(); ?>
-  <?php require('layout.php') ?>
-</body>
-
-</html>
+<?php
+$content = ob_get_clean();
+require __DIR__ . '/layout.php';

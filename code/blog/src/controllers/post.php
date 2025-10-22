@@ -1,8 +1,6 @@
 <?php
-// src/controllers/post.php
 require_once __DIR__ . '/../model/post.php';
 require_once __DIR__ . '/../model/comment.php';
-
 
 function post($identifier)
 {
@@ -11,10 +9,20 @@ function post($identifier)
         throw new Exception('Identifiant invalide');
     }
 
-    $repository = new PostRepository();
-    $repository->getPost($identifier);
-    $post = $repository->getPost($id);
-    $comments = getComments($id);
+    $db = new DatabaseConnection();
+
+    $postRepo = new PostRepository();
+    $postRepo->connection = $db;
+
+    $commentRepo = new CommentRepository();
+    $commentRepo->connection = $db;
+
+    $post = $postRepo->getPost($id);
+    if ($post === null) {
+        throw new Exception('Billet introuvable');
+    }
+
+    $comments = $commentRepo->getComments($id);
 
     require __DIR__ . '/../../templates/post.php';
 }

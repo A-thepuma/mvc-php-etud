@@ -1,0 +1,89 @@
+[33mcommit 35dac12c80b54a2c8f838388534bb01c4e0af827[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: André <111359909+A-thepuma@users.noreply.github.com>
+Date:   Wed Oct 22 17:10:06 2025 +0200
+
+    Base pour le TP5
+
+[33mcommit 3d5d64c4cae3c6060640258f17fbd7b1c2051a24[m
+Author: André <111359909+A-thepuma@users.noreply.github.com>
+Date:   Wed Oct 22 17:08:43 2025 +0200
+
+    Donnez vie à vos structures
+
+[33mcommit 79603d104476b047c3d6ca9812876711919dbbdf[m
+Author: André <111359909+A-thepuma@users.noreply.github.com>
+Date:   Wed Oct 22 16:19:01 2025 +0200
+
+    Structurez les données
+
+[33mcommit 98dc3d7a6100b6390339819471cd6689f435f3fa[m
+Author: André <111359909+A-thepuma@users.noreply.github.com>
+Date:   Wed Oct 22 15:48:49 2025 +0200
+
+    Base pour passer à une architecture MVC OO
+
+[33mcommit e9a32f2af9cd90b3fea4a6bd1b6eb4c6ba1f19ac[m
+Author: André <111359909+A-thepuma@users.noreply.github.com>
+Date:   Tue Oct 21 11:35:11 2025 +0200
+
+    Gérez les erreurs
+
+[33mcommit 955e97a975f41b2fb70a2c77bcf5ae7e51207a56[m
+Author: André <111359909+A-thepuma@users.noreply.github.com>
+Date:   Tue Oct 21 11:25:29 2025 +0200
+
+    Ajoutez des commentaires
+
+[33mcommit 149771c2545e32638d695995429a48a6b9378027[m
+Author: André <111359909+A-thepuma@users.noreply.github.com>
+Date:   Tue Oct 21 10:27:47 2025 +0200
+
+    Créez un routeur
+
+[33mcommit d9091ad61f5e02d46ffa5957ec91ce71b81a1e12[m
+Author: André <111359909+A-thepuma@users.noreply.github.com>
+Date:   Tue Oct 21 09:33:15 2025 +0200
+
+    Créez un template et un layout
+
+[33mcommit 1cee60063370067f271ab07a2299f4d6d12695f0[m
+Author: André <111359909+A-thepuma@users.noreply.github.com>
+Date:   Tue Oct 21 09:22:11 2025 +0200
+
+    Mettez à jour le modèle
+
+[33mcommit 38323302e6da2b0954aaa65eab4c07eec7d98e5e[m
+Author: André <111359909+A-thepuma@users.noreply.github.com>
+Date:   Tue Oct 21 09:10:51 2025 +0200
+
+    Dynamisez le contrôleur
+
+[33mcommit 62726ba3d85f6643acb65a3145c40d162a5278ea[m
+Author: André <111359909+A-thepuma@users.noreply.github.com>
+Date:   Tue Oct 21 08:46:46 2025 +0200
+
+    Créez la vue et le contrôleur
+
+[33mcommit 404e0042b28ec0304d4b0397951e6a0f514d48ed[m
+Author: André <111359909+A-thepuma@users.noreply.github.com>
+Date:   Tue Oct 21 08:35:27 2025 +0200
+
+    Base pour afficher les commentaires
+
+[33mcommit 775c53ef33178954fa3fd94e47298bfc7585f30d[m
+Author: André <111359909+A-thepuma@users.noreply.github.com>
+Date:   Sun Oct 19 14:40:31 2025 +0200
+
+    Isolez l'accès aux données
+
+[33mcommit c7d109ff6eec60cd69e7fd945f2cc928cb6dd641[m
+Author: André <111359909+A-thepuma@users.noreply.github.com>
+Date:   Sun Oct 19 13:49:35 2025 +0200
+
+    Isolez l'affichage du traitement PHP
+
+[33mcommit 434924e1acd3bbbfb083843655c55f311f9a9def[m
+Author: André <111359909+A-thepuma@users.noreply.github.com>
+Date:   Wed Oct 15 16:06:09 2025 +0200
+
+    base de travail

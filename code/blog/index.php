@@ -24,7 +24,7 @@ try {
         if (empty($_POST['author']) || empty($_POST['comment'])) {
             throw new Exception('Tous les champs sont obligatoires');
         }
-        addComment($_GET['id'], $_POST['author'], $_POST['comment']); // contrôleur
+       addComment($_GET['id']);
 
     } else {
         throw new Exception("Erreur 404 : la page que vous recherchez n'existe pas.");
