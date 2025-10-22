@@ -1,7 +1,7 @@
 <?php
 // src/controllers/post.php
-require_once('src/model.php');
-require_once('src/model/comment.php');
+require_once __DIR__ . '/../model/post.php';
+require_once __DIR__ . '/../model/comment.php';
 
 
 function post($identifier)

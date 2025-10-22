@@ -1,6 +1,12 @@
 <?php
 // src/model/comment.php
 
+
+class Comment {
+    public $author;
+    public $frenchCreationDate;
+    public $comment;
+}
 function commentDbConnect() {
     try {
         $db = new PDO(
@@ -27,8 +33,19 @@ function getComments($postId) {
          WHERE post_id = ?
          ORDER BY comment_date DESC"
     );
-    $st->execute(array((int)$postId));
-    return $st->fetchAll();
+
+    $st->execute([$postId]);
+
+    $comments = [];
+
+    while ($row = $st -> fetch(PDO::FETCH_ASSOC)) {
+        $c = new Comment();
+        $c->author             = $row['author'];
+        $c->comment            = $row['comment'];
+        $c->frenchCreationDate = $row['frenchCreationDate'];
+        $comments[] = $c;
+    }
+    return $comments;
 }
 
 function createComment($postId, $author, $comment) {
