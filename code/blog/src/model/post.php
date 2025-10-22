@@ -13,6 +13,7 @@ class PostRepository
 {
     public $database = null; // PDO
 
+    
     private function dbConnect()
     {
         if ($this->database === null) {
