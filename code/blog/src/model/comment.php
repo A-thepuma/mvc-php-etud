@@ -1,6 +1,8 @@
 <?php
-// src/model/comment.php
-require_once __DIR__ . '/../lib/database.php';
+namespace App\Model;
+
+use App\Lib\DatabaseConnection;
+use PDO;
 
 class Comment
 {
@@ -12,9 +14,13 @@ class Comment
 
 class CommentRepository
 {
-    
-    public $connection; 
+    private $connection;
 
+    public function __construct(DatabaseConnection $connection)
+    {
+        $this->connection = $connection;
+    }
+    
     public function getComments($postId)
     {
         $pdo = $this->connection->getConnection();
@@ -37,7 +43,7 @@ class CommentRepository
             $c->id                 = (int)$row['id'];
             $c->author             = $row['author'];
             $c->comment            = $row['comment'];
-            $c->frenchCreationDate = $row['frenchCreationDate']; // alias camelCase !
+            $c->frenchCreationDate = $row['frenchCreationDate'];
             $comments[] = $c;
         }
         return $comments;

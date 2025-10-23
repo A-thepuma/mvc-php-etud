@@ -1,46 +1,31 @@
 <?php
-// src/lib/database.php
+namespace App\Lib;
+
+use PDO;
+use Exception;
 
 class DatabaseConnection
 {
-
-    public $pdo = null;
-
-    public $host = '127.0.0.1';
-    public $port = '3307';
-    public $dbname = 'blog';
-    public $user = 'root';
-    public $password = 'root';
-    public $charset = 'utf8';
-
     public function getConnection()
     {
-        if ($this->pdo === null) {
-            $dsn = 'mysql:host=' . $this->host . ';port=' . $this->port . ';dbname=' . $this->dbname;
+        $host = getenv('DB_HOST') ?: '127.0.0.1';
+        $port = getenv('DB_PORT') ?: 3307;
+        $dbname = getenv('DB_NAME') ?: 'blog';
+        $user = getenv('DB_USER') ?: 'root';
+        $pass = getenv('DB_PASS') ?: '';
 
-            try {
-                $this->pdo = new PDO(
-                    $dsn,
-                    $this->user,
-                    $this->password,
-                    array(
-                        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                        // Force l'encodage côté client (évite le warning charset 255)
-                        PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES " . $this->charset
-                    )
-                );
+        $dsn = "mysql:host={$host};port={$port};dbname={$dbname};charset=utf8mb4";
 
-                // Fallbacks pour vieux clients libmysql sous Windows
-                $this->pdo->exec("SET NAMES " . $this->charset);
-                $this->pdo->exec("SET CHARACTER SET " . $this->charset);
-                $this->pdo->exec("SET collation_connection = utf8_general_ci");
+        try {
+            $connection = new PDO($dsn, $user, $pass, [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_PERSISTENT => false,
+            ]);
 
-            } catch (Exception $e) {
-                die('Erreur : ' . $e->getMessage());
-            }
+            return $connection;
+        } catch (Exception $e) {
+            throw new Exception("Impossible de se connecter à MySQL ({$host}:{$port}) — " . $e->getMessage(), (int)$e->getCode(), $e);
         }
-
-        return $this->pdo;
     }
 }
