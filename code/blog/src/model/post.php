@@ -21,28 +21,23 @@ class PostRepository
         $this->connection = $connection;
     }
 
-    /**
-     * Récupère les 5 derniers articles
-     * @return Post[]
-     */
+    /** @return Post[] */
     public function getPosts()
     {
         $pdo = $this->connection->getConnection();
-
-        $sql = "
+        $stmt = $pdo->query("
             SELECT
-                id AS identifier,
-                title,
-                content,
-                DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin%ss') AS frenchCreationDate
+              id AS identifier,
+              title,
+              content,
+              DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin%ss') AS frenchCreationDate
             FROM posts
             ORDER BY creation_date DESC
-            LIMIT 0, 5
-        ";
-        $statement = $pdo->query($sql);
+            LIMIT 0,5
+        ");
 
         $posts = array();
-        while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $p = new Post();
             $p->identifier         = (int)$row['identifier'];
             $p->title              = $row['title'];
@@ -53,35 +48,29 @@ class PostRepository
         return $posts;
     }
 
-    /**
-     * @param int|string $identifier
-     * @return Post|null
-     */
-    public function getPost($identifier)
+    /** @return Post|null */
+    public function getPost($id)
     {
         $pdo = $this->connection->getConnection();
-
-        $statement = $pdo->prepare("
+        $stmt = $pdo->prepare("
             SELECT
-                id,
-                title,
-                content,
-                DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin%ss') AS frenchCreationDate
+              id AS identifier,
+              title,
+              content,
+              DATE_FORMAT(creation_date, '%d/%m/%Y à %Hh%imin%ss') AS frenchCreationDate
             FROM posts
             WHERE id = ?
+            LIMIT 1
         ");
-        $statement->execute(array((int)$identifier));
-        $row = $statement->fetch(PDO::FETCH_ASSOC);
+        $stmt->execute(array((int)$id));
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$row) return null;
 
-        if (!$row) {
-            return null;
-        }
-
-        $post = new Post();
-        $post->identifier         = (int)$row['id'];
-        $post->title              = $row['title'];
-        $post->content            = $row['content'];
-        $post->frenchCreationDate = $row['frenchCreationDate'];
-        return $post;
+        $p = new Post();
+        $p->identifier         = (int)$row['identifier'];
+        $p->title              = $row['title'];
+        $p->content            = $row['content'];
+        $p->frenchCreationDate = $row['frenchCreationDate'];
+        return $p;
     }
 }

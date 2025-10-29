@@ -36,11 +36,14 @@
     <?php if (!empty($comments)): ?>
         <?php foreach ($comments as $comment): ?>
             <p>
-                <strong><?= htmlspecialchars($comment->author, ENT_QUOTES, 'UTF-8') ?></strong>
-                le <?= htmlspecialchars($comment->frenchCreationDate, ENT_QUOTES, 'UTF-8') ?>
+                <strong><?= htmlspecialchars($comment->author) ?></strong>
+                le <?= htmlspecialchars($comment->frenchCreationDate) ?>
             </p>
-            <p><?= nl2br(htmlspecialchars($comment->comment, ENT_QUOTES, 'UTF-8')) ?>
+            <p><?= nl2br(htmlspecialchars($comment->comment)) ?></p>
+            <p>
+                <a href="index.php?action=editComment&id=<?= htmlspecialchars((string) $comment->id) ?>">Modifier</a>
             </p>
+            <hr>
         <?php endforeach; ?>
     <?php else: ?>
         <p>Aucun commentaire pour le moment.</p>
